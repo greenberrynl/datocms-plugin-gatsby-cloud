@@ -59,7 +59,7 @@
           "type": "boolean",
           "required": false,
           "default": false,
-          "hint": "Works in combination with 'Use locale path'. When set, it wil not generate a locale-path (e.g. '/en/') for the default local (e.g. first locale in evironment setting."
+          "hint": "Works in combination with 'Use locale path'. When set, it wil not generate a locale-path (e.g. '/en/') for the default locale (e.g. first locale in evironment setting)."
         },
         {
           "id": "instanceUrl",

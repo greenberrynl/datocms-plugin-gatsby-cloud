@@ -19,7 +19,7 @@ export default class Main extends Component {
     super(props);
     this.state = {
       contentSlug: '',
-      initalValue: '',
+      initialValue: '',
       slugField: '',
     };
     this.slugChange = this.slugChange.bind(this);
@@ -82,7 +82,7 @@ export default class Main extends Component {
 
     this.setState({
       slugField,
-      initalValue: urlParts.join('/'),
+      initialValue: urlParts.join('/'),
     });
 
     this.unsubscribe = plugin.addFieldChangeListener(fieldPath, this.slugChange);
@@ -109,13 +109,13 @@ export default class Main extends Component {
         global: { instanceUrl, authToken },
       },
     } = plugin;
-    const { initalValue, contentSlug } = this.state;
+    const { initialValue, contentSlug } = this.state;
 
     return (
       <div className="container">
         <h1>Gatsby Cloud</h1>
         <ExtensionUI
-          contentSlug={contentSlug || initalValue}
+          contentSlug={contentSlug || initialValue}
           previewUrl={instanceUrl}
           authToken={authToken}
         />
