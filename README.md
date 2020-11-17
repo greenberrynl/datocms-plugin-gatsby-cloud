@@ -28,7 +28,7 @@ Please note that if the slug field is localized in a specific model, so needs to
 
 The plugin allows you to define a specific path per model, and per locale, where an item should be previewed. 
 
-For instance, your model is called 'posts' and you have a post called 'hello world'. By default, the previewlink would be `SITE_URL/hello-world`. But let's say you have your front set-up so that under the English version of your site the post is accessbile under `SITE_URL/articles/hello-world`. To fix the Gatsby preview-link, make a new (hidden) text-field under your model called `frontendPath` and fill the default value with the correct path for each locale (so `articles` for English). 
+For instance, your model is called 'posts' and you have a post called 'hello world'. By default, the previewlink would be `SITE_URL/hello-world`. But let's say you have your front set-up so that under the English version of your site the post is accessbile under `SITE_URL/articles/hello-world`. To fix the Gatsby preview-link, make a new (hidden) text-field under your model with the id `frontend_path` and fill the default value with the correct path for each locale (so `articles` for English). 
 
 ### Locale prefix
 
