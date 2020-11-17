@@ -47,16 +47,26 @@ export default class Main extends Component {
       .map(link => fields[link.id])
       .find(f => f.attributes.field_type === 'slug');
 
-    const modelslugField = itemType.relationships.fields.data
+    const frontendpathField = itemType.relationships.fields.data
       .map(link => fields[link.id])
-      .find(f => f.attributes.api_key === 'modelslug');
+      .find(f => f.attributes.api_key === 'frontendpath');
 
-    const modelslugValue = modelslugField.attributes.localized
-      ? `${modelslugField.attributes.api_key}.${locale}`
-      : modelslugField.attributes.api_key;
+    if (frontendpathField && frontendpathField.attributes.localized) {
+      const frontendpathValue = frontendpathField.attributes.localized
+        ? `${frontendpathField.attributes.api_key}.${locale}`
+        : frontendpathField.attributes.api_key;
 
-    const pathPrefixValue = plugin.getFieldValue(modelslugValue);
-    if (pathPrefixValue) urlParts.push(pathPrefixValue);
+      const pathPrefixValue = plugin.getFieldValue(frontendpathValue);
+      if (pathPrefixValue) urlParts.push(pathPrefixValue);
+    }
+
+    if (frontendpathField
+      && (slugField.attributes.localized && !frontendpathField.attributes.localized)) {
+      console.error(`Since the "${slugField.attributes.api_key}" slug field is localized, 
+      so needs to be the "${frontendpathField.attributes.api_key}" field!`);
+
+      return;
+    }
 
     if (!slugField) {
       if (developmentMode) {
