@@ -19,7 +19,7 @@ export default class Main extends Component {
     super(props);
     this.state = {
       contentSlug: '',
-      initalValue: '',
+      initialValue: '',
       slugField: '',
     };
     this.slugChange = this.slugChange.bind(this);
@@ -27,6 +27,7 @@ export default class Main extends Component {
 
   componentDidMount() {
     const { plugin } = this.props;
+    const urlParts = [];
 
     const {
       itemType,
@@ -34,13 +35,38 @@ export default class Main extends Component {
       locale,
       field,
       parameters: {
-        global: { developmentMode },
+        global: { developmentMode, useLocalePath, skipDefaultLocalePath },
       },
     } = plugin;
+
+    if (useLocalePath && !(skipDefaultLocalePath && plugin.site.attributes.locales[0] === locale)) {
+      urlParts.push(locale);
+    }
 
     const slugField = itemType.relationships.fields.data
       .map(link => fields[link.id])
       .find(f => f.attributes.field_type === 'slug');
+
+    const frontendPathField = itemType.relationships.fields.data
+      .map(link => fields[link.id])
+      .find(f => f.attributes.api_key === 'frontend_path');
+
+    if (frontendPathField && frontendPathField.attributes.localized) {
+      const frontendPathValue = frontendPathField.attributes.localized
+        ? `${frontendPathField.attributes.api_key}.${locale}`
+        : frontendPathField.attributes.api_key;
+
+      const pathPrefixValue = plugin.getFieldValue(frontendPathValue);
+      if (pathPrefixValue) urlParts.push(pathPrefixValue);
+    }
+
+    if (frontendPathField
+      && (slugField.attributes.localized && !frontendPathField.attributes.localized)) {
+      console.error(`Since the "${slugField.attributes.api_key}" slug field is localized, 
+      so needs to be the "${frontendPathField.attributes.api_key}" field!`);
+
+      return;
+    }
 
     if (!slugField) {
       if (developmentMode) {
@@ -62,9 +88,11 @@ export default class Main extends Component {
       ? `${slugField.attributes.api_key}.${locale}`
       : slugField.attributes.api_key;
 
+    if (fieldPath) urlParts.push(plugin.getFieldValue(fieldPath));
+
     this.setState({
       slugField,
-      initalValue: plugin.getFieldValue(fieldPath),
+      initialValue: urlParts.join('/'),
     });
 
     this.unsubscribe = plugin.addFieldChangeListener(fieldPath, this.slugChange);
@@ -91,13 +119,13 @@ export default class Main extends Component {
         global: { instanceUrl, authToken },
       },
     } = plugin;
-    const { initalValue, contentSlug } = this.state;
+    const { initialValue, contentSlug } = this.state;
 
     return (
       <div className="container">
         <h1>Gatsby Cloud</h1>
         <ExtensionUI
-          contentSlug={contentSlug || initalValue}
+          contentSlug={contentSlug || initialValue}
           previewUrl={instanceUrl}
           authToken={authToken}
         />

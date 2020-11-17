@@ -24,3 +24,14 @@ Once you've configured the plugin, you will be able to see it as a sidebar widge
 
 Please note that if the slug field is localized in a specific model, so needs to be the JSON field on which the plugin gets installed.
 
+### Localized Frontend path
+
+The plugin allows you to define a specific path per model, and per locale, where an item should be previewed. 
+
+For instance, your model is called 'posts' and you have a post called 'hello world'. By default, the previewlink would be `SITE_URL/hello-world`. But let's say you have your front set-up so that under the English version of your site the post is accessbile under `SITE_URL/articles/hello-world`. To fix the Gatsby preview-link, make a new (hidden) text-field under your model with the id `frontend_path` and fill the default value with the correct path for each locale (so `articles` for English). 
+
+### Locale prefix
+
+Use the option "useLocalePath" to give all Gatsby preview links a path-prefix for the current locale. So using the example above, when this option is set to true, the preview-link would become `SITE_URL/en/articles/hello-world`.
+
+Use the option "skipDefaultLocalePath" to disable this option for the default locale.

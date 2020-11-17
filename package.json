@@ -46,6 +46,22 @@
           "hint": "Shows debug messages in console"
         },
         {
+          "id": "useLocalePath",
+          "label": "Use locale-path",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "hint": "inserts locale-path (e.g. '/en/') into all urls"
+        },
+        {
+          "id": "skipDefaultLocalePath",
+          "label": "Skip locale-path for the default locale",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "hint": "Works in combination with 'Use locale path'. When set, it wil not generate a locale-path (e.g. '/en/') for the default locale (e.g. first locale in evironment setting)."
+        },
+        {
           "id": "instanceUrl",
           "label": "Gatsby Preview instance url",
           "type": "string",
