@@ -25,7 +25,7 @@ export default class Main extends Component {
       frontendPathField: '',
     };
     this.slugChange = this.slugChange.bind(this);
-    this.pathChange = this.pathChange.bind(this);
+    this.frontendPathChange = this.frontendPathChange.bind(this);
   }
 
   componentDidMount() {
@@ -62,7 +62,7 @@ export default class Main extends Component {
         this.setState({
           frontendPath: plugin.getFieldValue(frontendPathLocation),
         });
-        this.unsubscribePath = plugin.addFieldChangeListener(frontendPathLocation, this.pathChange);
+        this.unsubscribePathChange = plugin.addFieldChangeListener(frontendPathLocation, this.frontendPathChange); //eslint-disable-line
       }
     }
 
@@ -90,7 +90,7 @@ export default class Main extends Component {
 
       if (fieldPath) {
         this.setState({ slug: plugin.getFieldValue(fieldPath) });
-        this.unsubscribeSlug = plugin.addFieldChangeListener(fieldPath, this.slugChange);
+        this.unsubscribeSlugChange = plugin.addFieldChangeListener(fieldPath, this.slugChange);
       }
     }
 
@@ -103,11 +103,11 @@ export default class Main extends Component {
   componentWillUnmount() {
     const { slugField, frontendPathField } = this.state;
     if (slugField) {
-      this.unsubscribeSlug();
+      this.unsubscribeSlugChange();
     }
 
     if (frontendPathField) {
-      this.unsubscribePath();
+      this.unsubscribePathChange();
     }
   }
 
@@ -121,7 +121,7 @@ export default class Main extends Component {
     });
   }
 
-  pathChange(newValue) {
+  frontendPathChange(newValue) {
     this.setState({
       frontendPath: newValue,
     });
