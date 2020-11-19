@@ -47,7 +47,7 @@ export default class Main extends Component {
 
     const slugField = itemType.relationships.fields.data
       .map(link => fields[link.id])
-      .find(f => f.attributes.field_type === 'slug');
+      .find(f => (f.attributes.field_type === 'slug' || f.attributes.api_key === 'slug'));
 
     const frontendPathField = itemType.relationships.fields.data
       .map(link => fields[link.id])
